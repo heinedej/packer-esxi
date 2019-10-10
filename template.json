@@ -19,36 +19,51 @@
   ],
   "builders": [
     {
-      "type": "vmware",
+      "type": "hyperv-iso",
       "headless": true,
       "vm_name": "esxi55",
-      "vmdk_name": "esxi55",
-      "disk_type_id": "0",
+      "memory": "4096",
+      "cpus": "4",
+      "switch_name": "External",
+      "enable_virtualization_extensions": true,
+      "use_legacy_network_adapter": true,
       "boot_command": [
-        "O<wait>",
-        " ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+        "<tab><wait>O<wait> ignoreHeadless=TRUE ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
       ],
-      "boot_wait": "15s",
+      
       "disk_size": 20140,
-      "guest_os_type": "vmkernel5",
       "http_directory": "http",
-      "iso_checksum": "9aaa9e0daa424a7021c7dc13db7b9409",
+      "iso_checksum": "E7835F53EAE61DC3E03E5A4DD3D57ACE",
       "iso_checksum_type": "md5",
       "iso_urls": [
-        "./VMware-VMvisor-Installer-5.5.0-1331820.x86_64.iso"
+        "./ESXi-5.5.0-20180904001-standard-customized.iso"
       ],
       "ssh_username": "root",
       "ssh_password": "vagrant",
       "ssh_port": 22,
-      "ssh_wait_timeout": "20m",
-      "shutdown_command": "/bin/halt",
-      "vmx_data": {
-        "memsize": "4096",
-        "numvcpus": "2",
-        "cpuid.coresPerSocket": "2",
-        "vhv.enable": "TRUE",
-        "RemoteDisplay.vnc.webSocket.port": "6550"
+      "shutdown_command": "/bin/halt"
       }
+          {
+      "type": "qemu",
+      "iso_url": "./ESXi-5.5.0-20180904001-standard-customized.iso",
+      "iso_checksum": "E7835F53EAE61DC3E03E5A4DD3D57ACE",
+      "iso_checksum_type": "md5",
+      "output_directory": "output_vmware_kvm",
+      "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
+      "disk_size": 20140,
+      "format": "qcow2",
+      "accelerator": "kvm",
+      "http_directory": "http",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_timeout": "20m",
+      "vm_name": "esxi",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "boot_wait": "10s",
+      "boot_command": [
+        "<tab><wait>O<wait> ignoreHeadless=TRUE ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ]
     }
   ],
   "post-processors": [
