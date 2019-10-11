@@ -33,27 +33,32 @@
       
       "disk_size": 20140,
       "http_directory": "http",
-      "iso_checksum": "E7835F53EAE61DC3E03E5A4DD3D57ACE",
+      "iso_checksum": "cafb95ae04245eb3e93fed1602b0fd3b",
       "iso_checksum_type": "md5",
       "iso_urls": [
-        "./ESXi-5.5.0-20180904001-standard-customized.iso"
+        "./VMware-VMvisor-Installer-6.7.0.update03-14320388.x86_64.iso"
       ],
       "ssh_username": "root",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "shutdown_command": "/bin/halt"
-      }
+      },
           {
       "type": "qemu",
-      "iso_url": "./ESXi-5.5.0-20180904001-standard-customized.iso",
-      "iso_checksum": "E7835F53EAE61DC3E03E5A4DD3D57ACE",
+      "iso_url": "./VMware-VMvisor-Installer-6.7.0.update03-14320388.x86_64.iso",
+      "iso_checksum": "cafb95ae04245eb3e93fed1602b0fd3b",
       "iso_checksum_type": "md5",
       "output_directory": "output_vmware_kvm",
       "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
       "disk_size": 20140,
       "format": "qcow2",
       "accelerator": "kvm",
+      "cpuid.1.eax": "0000:0000:0110:0000:0000:1111:0001:0000",
       "http_directory": "http",
+      "qemuargs": [
+        [ "-m", "4096M" ],
+        [ "-smp", "cpus=2" ]
+      ],
       "ssh_username": "root",
       "ssh_password": "vagrant",
       "ssh_timeout": "20m",
@@ -62,7 +67,7 @@
       "disk_interface": "virtio",
       "boot_wait": "10s",
       "boot_command": [
-        "<tab><wait>O<wait> ignoreHeadless=TRUE ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+        "<tab><wait><wait> ignoreHeadless=TRUE ks=file:///http/ks.cfg<enter><wait>"
       ]
     }
   ],
